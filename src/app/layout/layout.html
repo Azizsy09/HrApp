@@ -3,7 +3,10 @@
     <!-- Menu -->
     <mat-sidenav
       #sidenav
-      [mode]="isMobile ? 'over' : 'side'">
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="isSidenavOpen"
+      (backdropClick)="isMobile && sidenav.close()"
+      (keydown.escape)="isMobile && sidenav.close()">
 
       <h3 class="menu-title">RH App</h3>
 

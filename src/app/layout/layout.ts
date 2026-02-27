@@ -63,13 +63,11 @@ export class Layout implements AfterViewInit {
   }
 
   toggleSidenav() {
-    if (this.isMobile && this.sidenav) {
-      this.sidenav.toggle();
+    if (this.sidenav) {
+      this.sidenav.toggle().then(() => {
+        this.isSidenavOpen = this.sidenav.opened;
+      });
     } else {
-      // desktop: keep controlling via boolean if needed
-      if (this.sidenav) {
-        this.sidenav.toggle();
-      }
       this.isSidenavOpen = !this.isSidenavOpen;
     }
   }
@@ -86,6 +84,8 @@ export class Layout implements AfterViewInit {
       } else {
         this.sidenav.open();
       }
+      // sync boolean state with actual sidenav
+      this.isSidenavOpen = this.sidenav.opened;
     }
   }
 }
