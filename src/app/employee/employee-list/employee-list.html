@@ -1,0 +1,198 @@
+<div class="employee-list-container">
+    <!-- HEADER AVEC BOUTON À DROITE -->
+    <div class="header-section">
+      <h2>Liste des employés</h2>
+      <button mat-raised-button color="primary" routerLink="create" class="create-button">
+        <mat-icon>add</mat-icon>
+        Créer employé
+      </button>
+    </div>
+  
+    <!-- FILTRES AVANCÉS -->
+    <div class="filters-section">
+      <mat-card class="filters-card">
+        <mat-card-header>
+          <mat-card-title class="filters-title">
+            <mat-icon>filter_list</mat-icon>
+            Filtres
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="filters-grid">
+  
+            <!-- Recherche globale -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Recherche globale</mat-label>
+              <input matInput
+                     [(ngModel)]="globalSearch"
+                     (input)="applyFilters()"
+                     placeholder="Nom, prénom ou email..."
+                     #globalSearchInput>
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+  
+            <!-- Filtre par prénom -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Prénom</mat-label>
+              <input matInput
+                     [(ngModel)]="firstNameFilter"
+                     (input)="applyFilters()"
+                     placeholder="Filtrer par prénom">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+  
+            <!-- Filtre par nom -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Nom</mat-label>
+              <input matInput
+                     [(ngModel)]="lastNameFilter"
+                     (input)="applyFilters()"
+                     placeholder="Filtrer par nom">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+  
+            <!-- Filtre par email -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Email</mat-label>
+              <input matInput
+                     [(ngModel)]="emailFilter"
+                     (input)="applyFilters()"
+                     placeholder="Filtrer par email">
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+  
+            <!-- Filtre par date d'embauche -->
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Date d'embauche</mat-label>
+              <mat-select [(ngModel)]="hireDateFilter" (selectionChange)="applyFilters()">
+                <mat-option value="">Toutes les dates</mat-option>
+                <mat-option value="thisMonth">Ce mois-ci</mat-option>
+                <mat-option value="lastMonth">Le mois dernier</mat-option>
+                <mat-option value="thisYear">Cette année</mat-option>
+                <mat-option value="lastYear">L'année dernière</mat-option>
+              </mat-select>
+              <mat-icon matSuffix>calendar_today</mat-icon>
+            </mat-form-field>
+  
+            <!-- Boutons d'actions -->
+            <div class="filter-actions">
+              <button mat-stroked-button (click)="clearAllFilters()" class="clear-button">
+                <mat-icon>clear_all</mat-icon>
+                Effacer tout
+              </button>
+              <div class="results-count" *ngIf="filteredEmployees.length !== employees.length">
+                {{ filteredEmployees.length }} résultat(s)
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Vue mobile : Cartes -->
+    <div class="mobile-view" *ngIf="isMobile">
+      <mat-card class="employee-card" *ngFor="let employee of filteredEmployees">
+        <mat-card-header>
+          <div mat-card-avatar class="avatar">
+            {{ employee.firstName.charAt(0) }}{{ employee.lastName.charAt(0) }}
+          </div>
+          <mat-card-title>{{ employee.firstName }} {{ employee.lastName }}</mat-card-title>
+          <mat-card-subtitle>{{ employee.email }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="card-info">
+            <div class="info-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Embauche: {{ employee.hireDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="info-item">
+              <mat-icon>beach_access</mat-icon>
+              <span>Congés: {{ employee.remainingLeaveDays }}/{{ employee.totalLeaveDays }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">
+            <mat-icon>edit</mat-icon>
+            Modifier
+          </button>
+          <button mat-button color="warn">
+            <mat-icon>delete</mat-icon>
+            Supprimer
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  
+    <!-- Vue desktop : Tableau -->
+    <div class="desktop-view" *ngIf="!isMobile">
+      <table mat-table [dataSource]="filteredEmployees" class="mat-elevation-z4 employee-table">
+        <ng-container matColumnDef="avatar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let emp">
+            <div class="avatar-cell">
+              {{ emp.firstName.charAt(0) }}{{ emp.lastName.charAt(0) }}
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom complet</th>
+          <td mat-cell *matCellDef="let emp" class="name-cell">
+            <div class="name-info">
+              <div class="full-name">{{ emp.firstName }} {{ emp.lastName }}</div>
+              <div class="email">{{ emp.email }}</div>
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="hireDate">
+          <th mat-header-cell *matHeaderCellDef>Date embauche</th>
+          <td mat-cell *matCellDef="let emp">{{ emp.hireDate | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="leaves">
+          <th mat-header-cell *matHeaderCellDef>Congés</th>
+          <td mat-cell *matCellDef="let emp">
+            <div class="leave-info">
+              <span class="remaining">{{ emp.remainingLeaveDays }}</span>
+              <span class="separator">/</span>
+              <span class="total">{{ emp.totalLeaveDays }}</span>
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let emp">
+            <div class="actions-cell">
+              <button mat-icon-button color="primary" matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" matTooltip="Supprimer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="employee-row"></tr>
+      </table>
+    </div>
+  
+    <!-- Message si pas d'employés -->
+    <div class="no-employees" *ngIf="filteredEmployees.length === 0 && !hasActiveFilters()">
+      <mat-icon class="no-data-icon">people_outline</mat-icon>
+      <h3>Aucun employé trouvé</h3>
+      <p>Commencez par créer votre premier employé !</p>
+    </div>
+  
+    <!-- Message si filtres sans résultats -->
+    <div class="no-results" *ngIf="filteredEmployees.length === 0 && hasActiveFilters()">
+      <mat-icon class="no-data-icon">filter_list_off</mat-icon>
+      <h3>Aucun résultat</h3>
+      <p>Aucun employé ne correspond aux filtres appliqués</p>
+      <button mat-button (click)="clearAllFilters()">Effacer tous les filtres</button>
+    </div>
+  </div>

@@ -1,0 +1,214 @@
+<div class="attendance-container">
+    <!-- HORLOGE DANS UN CADRE ÉLÉGANT -->
+    <div class="clock-frame-container">
+      <div class="clock-frame">
+        <div class="frame-header">
+          <mat-icon class="frame-icon">schedule</mat-icon>
+          <h2>Heure actuelle</h2>
+        </div>
+        
+        <div class="time-display">
+          <span class="hours">{{ currentTime.split(':')[0] }}</span>
+          <span class="separator">:</span>
+          <span class="minutes">{{ currentTime.split(':')[1] }}</span>
+          <span class="separator">:</span>
+          <span class="seconds">{{ currentTime.split(':')[2] }}</span>
+        </div>
+        
+        <div class="date-display">
+          <p>{{ today | date:'EEEE dd MMMM yyyy' | titlecase }}</p>
+        </div>
+        
+        <!-- Indicateur de statut rapide -->
+        <div class="quick-status" *ngIf="currentEmployee">
+          <div class="status-indicator" [class]="hasCheckedOut ? 'completed' : 'active'">
+            <mat-icon>{{ hasCheckedOut ? 'check_circle' : 'play_circle_filled' }}</mat-icon>
+            <span>{{ hasCheckedOut ? 'Journée terminée' : 'Journée en cours' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- SCANNER QR CODE -->
+    <div class="qr-scanner-section">
+      <div class="scanner-container">
+        <div class="scanner-header">
+          <h3>Pointage par QR Code</h3>
+          <p>Scannez votre carte d'employé</p>
+        </div>
+  
+        <div class="scanner-area" [class.scanning]="isScanning">
+          <div class="scanner-frame">
+            <mat-icon class="scanner-icon">qr_code_scanner</mat-icon>
+            <div class="scanner-overlay">
+              <div class="corner top-left"></div>
+              <div class="corner top-right"></div>
+              <div class="corner bottom-left"></div>
+              <div class="corner bottom-right"></div>
+            </div>
+          </div>
+  
+          <div class="scan-instructions" *ngIf="!isScanning">
+            <button mat-raised-button color="primary" (click)="startScanning()" class="scan-button">
+              <mat-icon>camera</mat-icon>
+              Commencer le scan
+            </button>
+            <p class="instruction-text">Positionnez le QR code de votre carte dans le cadre</p>
+          </div>
+  
+          <div class="scanning-animation" *ngIf="isScanning">
+            <div class="scan-line"></div>
+            <p>Scan en cours...</p>
+          </div>
+        </div>
+  
+        <!-- Boutons alternatifs -->
+        <div class="alternative-actions">
+          <button mat-stroked-button (click)="showManualEntry()" class="manual-button">
+            <mat-icon>keyboard</mat-icon>
+            Saisie manuelle
+          </button>
+          <button mat-stroked-button (click)="showCardNumber()" class="card-button">
+            <mat-icon>credit_card</mat-icon>
+            Numéro de carte
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Section principale avec statut détaillé -->
+    <div class="main-content" *ngIf="currentEmployee">
+      <!-- Statut actuel stylisé -->
+      <div class="status-section" *ngIf="currentRecord">
+        <mat-card class="status-card elevation-4">
+          <mat-card-header>
+            <mat-card-title class="status-title">
+              <mat-icon>info</mat-icon>
+              Votre pointage aujourd'hui
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="status-grid">
+              <div class="status-item check-in" *ngIf="currentRecord.checkInTime">
+                <div class="status-icon">
+                  <mat-icon class="icon-success">login</mat-icon>
+                </div>
+                <div class="status-details">
+                  <h3>Arrivée</h3>
+                  <p class="status-time">{{ currentRecord.checkInTime }}</p>
+                  <span class="status-badge" [class]="getStatusClass(currentRecord.status)">
+                    {{ getStatusLabel(currentRecord.status) }}
+                  </span>
+                </div>
+              </div>
+  
+              <div class="status-item check-out" *ngIf="currentRecord.checkOutTime">
+                <div class="status-icon">
+                  <mat-icon class="icon-primary">logout</mat-icon>
+                </div>
+                <div class="status-details">
+                  <h3>Départ</h3>
+                  <p class="status-time">{{ currentRecord.checkOutTime }}</p>
+                  <p class="hours-worked" *ngIf="currentRecord.totalHours">
+                    <mat-icon>timer</mat-icon>
+                    {{ currentRecord.totalHours }}h travaillées
+                  </p>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- Boutons d'action massifs -->
+      <div class="action-section">
+        <div class="action-buttons-grid">
+          <button
+            mat-raised-button
+            class="action-button check-in-button"
+            (click)="checkIn()"
+            [disabled]="hasCheckedIn"
+            [class.checked-in]="hasCheckedIn">
+            <div class="button-content">
+              <mat-icon class="button-icon">{{ hasCheckedIn ? 'check_circle' : 'play_arrow' }}</mat-icon>
+              <div class="button-text">
+                <span class="main-text">{{ hasCheckedIn ? 'Arrivée pointée' : 'Pointer arrivée' }}</span>
+                <span class="sub-text" *ngIf="!hasCheckedIn">Démarrer ma journée</span>
+              </div>
+            </div>
+          </button>
+  
+          <button
+            mat-raised-button
+            class="action-button check-out-button"
+            (click)="checkOut()"
+            [disabled]="!hasCheckedIn || hasCheckedOut"
+            [class.checked-out]="hasCheckedOut">
+            <div class="button-content">
+              <mat-icon class="button-icon">{{ hasCheckedOut ? 'check_circle' : 'stop' }}</mat-icon>
+              <div class="button-text">
+                <span class="main-text">{{ hasCheckedOut ? 'Départ pointé' : 'Pointer départ' }}</span>
+                <span class="sub-text" *ngIf="!hasCheckedOut && hasCheckedIn">Terminer ma journée</span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+  
+      <!-- Statistiques de l'équipe -->
+      <div class="team-stats-section" *ngIf="todayRecords.length > 0">
+        <h2>Équipe aujourd'hui</h2>
+        <div class="stats-cards">
+          <mat-card class="stat-card present-card">
+            <mat-card-content>
+              <div class="stat-icon">
+                <mat-icon>check_circle</mat-icon>
+              </div>
+              <div class="stat-info">
+                <h3>{{ getPresentCount() }}</h3>
+                <p>Présents</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+  
+          <mat-card class="stat-card late-card">
+            <mat-card-content>
+              <div class="stat-icon">
+                <mat-icon>schedule</mat-icon>
+              </div>
+              <div class="stat-info">
+                <h3>{{ getLateCount() }}</h3>
+                <p>En retard</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+  
+          <mat-card class="stat-card absent-card">
+            <mat-card-content>
+              <div class="stat-icon">
+                <mat-icon>person_off</mat-icon>
+              </div>
+              <div class="stat-info">
+                <h3>{{ getAbsentCount() }}</h3>
+                <p>Absents</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+  
+      <!-- Message de bienvenue -->
+      <div class="welcome-message" *ngIf="!hasCheckedIn">
+        <mat-icon class="welcome-icon">waving_hand</mat-icon>
+        <h3>Bienvenue {{ currentEmployee.employeeName }} !</h3>
+        <p>N'oubliez pas de pointer votre arrivée pour commencer votre journée de travail.</p>
+      </div>
+    </div>
+  
+    <!-- Message d'accueil pour scan -->
+    <div class="scan-welcome" *ngIf="!currentEmployee">
+      <mat-icon class="scan-welcome-icon">qr_code</mat-icon>
+      <h2>Pointage Digital</h2>
+      <p>Scannez votre carte d'employé ou utilisez les options ci-dessous</p>
+    </div>
+  </div>

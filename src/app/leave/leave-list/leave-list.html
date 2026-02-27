@@ -1,0 +1,24 @@
+<div class="leave-list-container">
+    <div class="header-section">
+      <h2>Liste des congés</h2>
+      <button mat-raised-button color="primary" routerLink="create">
+        Nouvelle demande
+      </button>
+    </div>
+  
+    <div class="leave-cards">
+      <mat-card class="leave-card" *ngFor="let leave of leaves">
+        <mat-card-header>
+          <mat-card-title>{{ leave.employeeName }}</mat-card-title>
+          <mat-card-subtitle>{{ leave.type }} - {{ leave.status }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Dates:</strong> {{ leave.startDate }} au {{ leave.endDate }}</p>
+          <p><strong>Motif:</strong> {{ leave.reason }}</p>
+          <p><strong>Statut:</strong> 
+            <span class="status" [class]="'status-' + leave.status">{{ leave.status }}</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

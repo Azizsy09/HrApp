@@ -1,0 +1,131 @@
+<div class="project-list-container">
+    <div class="header-section">
+      <h2>Projets</h2>
+      <div class="header-actions">
+        <mat-button-toggle-group [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <mat-button-toggle value="all">Tous</mat-button-toggle>
+          <mat-button-toggle value="active">Actifs</mat-button-toggle>
+          <mat-button-toggle value="planning">Planification</mat-button-toggle>
+          <mat-button-toggle value="completed">Terminés</mat-button-toggle>
+        </mat-button-toggle-group>
+        <button mat-raised-button color="primary" routerLink="create">
+          <mat-icon>add</mat-icon>
+          Nouveau projet
+        </button>
+      </div>
+    </div>
+  
+    <!-- Projets en grille -->
+    <div class="projects-grid">
+      <mat-card class="project-card" *ngFor="let project of filteredProjects"
+                [class]="'priority-' + project.priority"
+                (click)="viewProject(project.id)">
+  
+        <!-- En-tête avec statut et priorité -->
+        <mat-card-header>
+          <div class="project-header">
+            <div class="status-badge" [class]="'status-' + project.status">
+              <mat-icon>{{ getStatusIcon(project.status) }}</mat-icon>
+              <span>{{ getStatusLabel(project.status) }}</span>
+            </div>
+            <div class="priority-indicator" [class]="'priority-' + project.priority">
+              {{ getPriorityLabel(project.priority) }}
+            </div>
+          </div>
+          <mat-card-title class="project-title">{{ project.name }}</mat-card-title>
+          <mat-card-subtitle class="project-manager">
+            <mat-icon>person</mat-icon>
+            {{ project.managerName }}
+          </mat-card-subtitle>
+        </mat-card-header>
+  
+        <mat-card-content>
+          <div class="project-info">
+            <div class="date-range">
+              <mat-icon>date_range</mat-icon>
+              <span>{{ project.startDate | date:'dd/MM/yyyy' }} - {{ project.endDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+  
+            <div class="project-description">
+              {{ project.description | slice:0:100 }}...
+            </div>
+  
+            <div class="project-stats">
+              <div class="stat-item">
+                <mat-icon>group</mat-icon>
+                <span>{{ project.assignedEmployees.length }} membres</span>
+              </div>
+              <div class="stat-item" *ngIf="project.budget">
+                <mat-icon>attach_money</mat-icon>
+                <span>{{ project.budget | number }}€</span>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Barre de progression -->
+          <div class="progress-section">
+            <div class="progress-label">
+              <span>Progression</span>
+              <span>{{ project.progress }}%</span>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="project.progress"
+              class="project-progress">
+            </mat-progress-bar>
+          </div>
+        </mat-card-content>
+  
+        <mat-card-actions>
+          <button mat-button>
+            <mat-icon>visibility</mat-icon>
+            Voir détails
+          </button>
+          <button mat-button color="primary">
+            <mat-icon>edit</mat-icon>
+            Modifier
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  
+    <!-- Statistiques des projets -->
+    <div class="projects-stats" *ngIf="!isMobile">
+      <mat-card class="stats-card">
+        <mat-card-header>
+          <mat-card-title>Aperçu projets</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">{{ getProjectsCount('active') }}</div>
+              <div class="stat-label">Projets actifs</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ getProjectsCount('planning') }}</div>
+              <div class="stat-label">En planification</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ getProjectsCount('completed') }}</div>
+              <div class="stat-label">Terminés</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ getProjectsCount('all') }}</div>
+              <div class="stat-label">Total</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Aucun projet -->
+    <div class="no-projects" *ngIf="filteredProjects.length === 0">
+      <mat-icon class="no-data-icon">work_outline</mat-icon>
+      <h3>Aucun projet trouvé</h3>
+      <p>Commencez par créer votre premier projet !</p>
+      <button mat-raised-button color="primary" routerLink="create">
+        <mat-icon>add</mat-icon>
+        Créer un projet
+      </button>
+    </div>
+  </div>

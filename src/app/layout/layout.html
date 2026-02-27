@@ -1,0 +1,67 @@
+<mat-sidenav-container class="container">
+
+    <!-- Menu -->
+    <mat-sidenav
+      #sidenav
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="isMobile ? false : isSidenavOpen">
+
+      <h3 class="menu-title">RH App</h3>
+
+      <mat-nav-list>
+        <a mat-list-item routerLink="dashboard" (click)="isMobile && sidenav.close()">Dashboard</a>
+        <a mat-list-item routerLink="employees" (click)="isMobile && sidenav.close()">Liste employés</a>
+        <a mat-list-item routerLink="employees/create" (click)="isMobile && sidenav.close()">Créer employé</a>
+        <a mat-list-item routerLink="leaves" (click)="isMobile && sidenav.close()">Demandes congés</a>
+        <a mat-list-item routerLink="attendance" (click)="isMobile && sidenav.close()">Pointage</a>
+        <a mat-list-item routerLink="attendance/list" (click)="isMobile && sidenav.close()">Historique pointages</a>
+        <a mat-list-item routerLink="projects" (click)="isMobile && sidenav.close()">Projets</a>
+        <a mat-list-item routerLink="calendar" (click)="isMobile && sidenav.close()">Planning</a>
+      </mat-nav-list>
+
+    </mat-sidenav>
+
+    <!-- Contenu -->
+    <mat-sidenav-content>
+
+      <mat-toolbar color="primary">
+        <button
+          mat-icon-button
+          (click)="toggleSidenav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <span>Dashboard RH</span>
+
+        <!-- Menu utilisateur -->
+        <span class="spacer"></span>
+        <span *ngIf="currentUser" class="user-info">
+          {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="currentUser">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item disabled>
+            <mat-icon>person</mat-icon>
+            <span>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>email</mat-icon>
+            <span>{{ currentUser?.email }}</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Déconnexion</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>

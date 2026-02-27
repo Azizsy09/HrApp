@@ -1,0 +1,21 @@
+.container {
+    height: 100vh;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+  
+  .menu-title {
+    padding: 16px;
+    font-weight: bold;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .user-info {
+    margin-right: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }

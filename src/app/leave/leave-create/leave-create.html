@@ -1,0 +1,83 @@
+<div class="create-leave-container">
+    <div class="form-header">
+      <button mat-icon-button routerLink=".." class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Nouvelle demande de congé</h2>
+    </div>
+  
+    <mat-card class="form-card">
+      <mat-card-content>
+        <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="leave-form">
+  
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Type de congé</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="vacation">Congés payés</mat-option>
+              <mat-option value="sick">Maladie</mat-option>
+              <mat-option value="personal">Personnel</mat-option>
+              <mat-option value="maternity">Maternité</mat-option>
+              <mat-option value="paternity">Paternité</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <div class="date-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Date de début</mat-label>
+              <input matInput
+                     [matDatepicker]="startPicker"
+                     formControlName="startDate"
+                     [min]="minDate"
+                     placeholder="Sélectionnez la date de début">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+              <mat-error *ngIf="leaveForm.get('startDate')?.hasError('required') && leaveForm.get('startDate')?.touched">
+                La date de début est requise
+              </mat-error>
+              <mat-error *ngIf="leaveForm.get('startDate')?.hasError('matDatepickerMin')">
+                La date doit être dans le futur
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Date de fin</mat-label>
+              <input matInput
+                     [matDatepicker]="endPicker"
+                     formControlName="endDate"
+                     [min]="leaveForm.get('startDate')?.value || minDate"
+                     placeholder="Sélectionnez la date de fin">
+              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+              <mat-error *ngIf="leaveForm.get('endDate')?.hasError('required') && leaveForm.get('endDate')?.touched">
+                La date de fin est requise
+              </mat-error>
+              <mat-error *ngIf="leaveForm.get('endDate')?.hasError('matDatepickerMin')">
+                La date de fin doit être après la date de début
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <mat-form-field appearance="outline" class="form-field full-width">
+            <mat-label>Motif (optionnel)</mat-label>
+            <textarea matInput
+                      formControlName="reason"
+                      rows="3"
+                      placeholder="Décrivez brièvement le motif de votre demande..."></textarea>
+          </mat-form-field>
+  
+          <div class="form-actions">
+            <button mat-button type="button" routerLink="..">Annuler</button>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="leaveForm.invalid || isSubmitting">
+              <mat-icon *ngIf="isSubmitting">hourglass_empty</mat-icon>
+              <mat-icon *ngIf="!isSubmitting">send</mat-icon>
+              <span *ngIf="isSubmitting">Envoi...</span>
+              <span *ngIf="!isSubmitting">Envoyer la demande</span>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>

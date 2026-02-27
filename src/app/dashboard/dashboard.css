@@ -1,0 +1,386 @@
+/* SECTION STATISTIQUES AVANCÉES */
+.advanced-stats-section {
+    margin-top: 40px;
+  }
+  
+  .advanced-stats-section h2 {
+    color: #1976d2;
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+  }
+  
+  /* ALERTES */
+  .alerts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .alert-card {
+    border-left: 4px solid;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .delayed-projects {
+    border-left-color: #f44336;
+  }
+  
+  .pending-leaves {
+    border-left-color: #ff9800;
+  }
+  
+  .alert-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #333;
+    font-size: 1.2rem;
+  }
+  
+  .delayed-projects .alert-title {
+    color: #f44336;
+  }
+  
+  .pending-leaves .alert-title {
+    color: #ff9800;
+  }
+  
+  /* Projets en retard */
+  .delayed-project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .delayed-project-item:last-child {
+    border-bottom: none;
+  }
+  
+  .project-info h4 {
+    margin: 0 0 4px 0;
+    color: #f44336;
+    font-size: 1rem;
+  }
+  
+  .project-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .delay-indicator {
+    text-align: right;
+  }
+  
+  .delay-days {
+    background: #ffebee;
+    color: #f44336;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  
+  /* Congés en attente */
+  .pending-leave-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .pending-leave-item:last-child {
+    border-bottom: none;
+  }
+  
+  .employee-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1976d2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .leave-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .leave-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .no-delayed, .no-pending {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    color: #4caf50;
+    font-weight: 500;
+  }
+  
+  /* GRAPHIQUES */
+  .charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .chart-card {
+    height: fit-content;
+  }
+  
+  .chart-card mat-card-title {
+    color: #1976d2;
+    font-size: 1.2rem;
+  }
+  
+  /* Graphique départements */
+  .department-chart {
+    margin-top: 16px;
+  }
+  
+  .department-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .dept-name {
+    min-width: 80px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .dept-bar {
+    flex: 1;
+    height: 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .dept-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1976d2, #42a5f5);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+  
+  .dept-count {
+    min-width: 30px;
+    text-align: right;
+    font-weight: 600;
+    color: #1976d2;
+  }
+  
+  /* Graphique évolution congés */
+  .leave-chart {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    height: 150px;
+    margin-top: 16px;
+    padding: 0 20px;
+  }
+  
+  .month-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 40px;
+  }
+  
+  .bar-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #4caf50, #66bb6a);
+    border-radius: 4px 4px 0 0;
+    min-height: 10px;
+    transition: height 0.3s ease;
+  }
+  
+  .month-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .leave-count {
+    font-size: 0.75rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Jauge taux d'occupation */
+  .occupation-gauge {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .gauge-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .gauge-svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .gauge-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .occupation-percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1976d2;
+  }
+  
+  .occupation-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2px;
+  }
+  
+  /* MÉTRIQUES CLÉS */
+  .key-metrics-section {
+    margin-bottom: 24px;
+  }
+  
+  .metrics-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+  
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+  }
+  
+  .metric-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .metric-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .metric-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .metric-icon mat-icon {
+    font-size: 24px;
+  }
+  
+  .productivity {
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+  }
+  
+  .satisfaction {
+    background: linear-gradient(135deg, #ff9800, #ffb74d);
+  }
+  
+  .retention {
+    background: linear-gradient(135deg, #9c27b0, #ba68c8);
+  }
+  
+  .budget {
+    background: linear-gradient(135deg, #f44336, #ef5350);
+  }
+  
+  .metric-data {
+    flex: 1;
+  }
+  
+  .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1976d2;
+    margin-bottom: 4px;
+  }
+  
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .alerts-section {
+      grid-template-columns: 1fr;
+    }
+  
+    .charts-section {
+      grid-template-columns: 1fr;
+    }
+  
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  
+    .leave-chart {
+      height: 120px;
+      padding: 0 10px;
+    }
+  
+    .month-bar {
+      max-width: 30px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .metric-item {
+      padding: 12px;
+    }
+  
+    .metric-value {
+      font-size: 1.5rem;
+    }
+  }

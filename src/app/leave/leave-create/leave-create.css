@@ -1,0 +1,247 @@
+/* STYLES POUR LES CHAMPS MATERIAL DESIGN */
+
+.form-field {
+    width: 100%;
+  }
+  
+  .form-field mat-form-field {
+    width: 100%;
+  }
+  
+  .form-field .mat-mdc-form-field {
+    width: 100%;
+  }
+  
+  .form-field .mat-mdc-form-field-outline {
+    border-radius: 12px;
+  }
+  
+  .form-field .mat-mdc-form-field-focus-overlay {
+    background-color: rgba(25, 118, 210, 0.04);
+  }
+  
+  .form-field .mdc-notched-outline__leading,
+  .form-field .mdc-notched-outline__notch,
+  .form-field .mdc-notched-outline__trailing {
+    border-color: #e0e0e0;
+    border-width: 1px;
+  }
+  
+  .form-field .mdc-notched-outline--notched .mdc-notched-outline__notch {
+    border-top: none;
+  }
+  
+  .form-field.mat-focused .mdc-notched-outline__leading,
+  .form-field.mat-focused .mdc-notched-outline__notch,
+  .form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: #1976d2;
+    border-width: 2px;
+  }
+  
+  .form-field .mat-mdc-input-element {
+    padding: 16px 14px;
+    font-size: 14px;
+  }
+  
+  .form-field .mat-mdc-form-field-label {
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .form-field.mat-focused .mat-mdc-form-field-label {
+    color: #1976d2;
+  }
+  
+  .form-field .mat-mdc-form-field-required-marker {
+    color: #f44336;
+  }
+  
+  /* Styles pour les icônes */
+  .form-field .mat-icon {
+    color: #666;
+  }
+  
+  .form-field.mat-focused .mat-icon {
+    color: #1976d2;
+  }
+  
+  /* Styles pour le textarea */
+  .form-field textarea.mat-mdc-input-element {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  /* Styles pour les selects */
+  .form-field mat-select {
+    padding: 16px 14px;
+  }
+  
+  /* Styles pour les options du select */
+  .mat-mdc-select-panel {
+    border-radius: 12px;
+    margin-top: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .mat-mdc-option {
+    border-radius: 8px;
+    margin: 4px 8px;
+  }
+  
+  .mat-mdc-option:hover {
+    background-color: #e3f2fd;
+  }
+  
+  .mat-mdc-option.mat-active {
+    background-color: #1976d2;
+    color: white;
+  }
+  
+  /* Amélioration de la carte du formulaire */
+  .form-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  .form-card mat-card-header {
+    background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    color: white;
+    padding: 24px;
+  }
+  
+  .form-card .mat-mdc-card-header-text {
+    margin: 0;
+  }
+  
+  .form-card .mat-mdc-card-title {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .form-card .mat-mdc-card-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+  }
+  
+  /* Styles pour les boutons d'actions */
+  .form-actions {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .form-actions button {
+    min-width: 120px;
+    font-weight: 500;
+  }
+  
+  /* Animation d'entrée */
+  .create-leave-container {
+    animation: slideInFromBottom 0.5s ease-out;
+  }
+  
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Styles pour les erreurs de validation */
+  .form-field .mat-mdc-form-field-error {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  .form-field .mat-mdc-form-field-subscript-wrapper {
+    margin-top: 4px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .create-leave-container {
+      padding: 16px;
+    }
+  
+    .date-row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  
+    .form-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .form-actions button {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  
+    .form-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-field .mat-mdc-input-element {
+      padding: 14px 12px;
+      font-size: 16px; /* Empêche zoom sur mobile */
+    }
+  
+    .form-card mat-card-content {
+      padding: 16px !important;
+    }
+    /* Styles spécifiques pour les types de congé */
+.leave-type-select .mat-mdc-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .leave-type-select .mat-mdc-option mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Styles pour les dates */
+  .date-field .mat-mdc-form-field-label::after {
+    content: " *";
+    color: #f44336;
+  }
+  
+  /* Amélioration des tooltips d'aide */
+  .form-field .help-text {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  
+  /* Focus amélioré */
+  .form-field.mat-focused .mat-mdc-form-field-outline-thick {
+    border-color: #1976d2;
+    border-width: 3px;
+  }
+  
+  /* États d'erreur */
+  .form-field.mat-form-field-invalid .mdc-notched-outline__leading,
+  .form-field.mat-form-field-invalid .mdc-notched-outline__notch,
+  .form-field.mat-form-field-invalid .mdc-notched-outline__trailing {
+    border-color: #f44336;
+  }
+  
+  .form-field.mat-form-field-invalid .mat-mdc-form-field-label {
+    color: #f44336;
+  }
+  }

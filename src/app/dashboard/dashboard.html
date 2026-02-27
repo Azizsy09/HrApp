@@ -1,0 +1,201 @@
+<div class="dashboard-container">
+    <h1>Dashboard RH</h1>
+  
+    <div class="dashboard-grid">
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Employés</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="metric">{{ totalEmployees }}</p>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Actifs</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="metric">{{ activeEmployees }}</p>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>En congé</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="metric">{{ onLeave }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- STATISTIQUES AVANCÉES -->
+    <div class="advanced-stats-section">
+      <h2>Tableau de bord détaillé</h2>
+  
+      <!-- Alertes projets en retard -->
+      <div class="alerts-section">
+        <mat-card class="alert-card delayed-projects">
+          <mat-card-header>
+            <mat-card-title class="alert-title">
+              <mat-icon>warning</mat-icon>
+              Projets en retard
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="delayed-project-item" *ngFor="let project of delayedProjects">
+              <div class="project-info">
+                <h4>{{ project.name }}</h4>
+                <p>Échéance: {{ project.endDate | date:'dd/MM/yyyy' }}</p>
+              </div>
+              <div class="delay-indicator">
+                <span class="delay-days">{{ project.daysLate }} jours</span>
+              </div>
+            </div>
+            <div class="no-delayed" *ngIf="delayedProjects.length === 0">
+              <mat-icon>check_circle</mat-icon>
+              <span>Aucun projet en retard</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <!-- Congés en attente -->
+        <mat-card class="alert-card pending-leaves">
+          <mat-card-header>
+            <mat-card-title class="alert-title">
+              <mat-icon>event_note</mat-icon>
+              Congés en attente
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="pending-leave-item" *ngFor="let leave of pendingLeaves.slice(0, 3)">
+              <div class="employee-avatar">
+                {{ leave.employeeName.charAt(0) }}
+              </div>
+              <div class="leave-info">
+                <h4>{{ leave.employeeName }}</h4>
+                <p>{{ leave.startDate | date:'dd/MM/yyyy' }} - {{ leave.endDate | date:'dd/MM/yyyy' }}</p>
+              </div>
+            </div>
+            <div class="no-pending" *ngIf="pendingLeaves.length === 0">
+              <mat-icon>event_available</mat-icon>
+              <span>Aucun congé en attente</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- Graphiques et métriques -->
+      <div class="charts-section">
+        <!-- Répartition par département -->
+        <mat-card class="chart-card">
+          <mat-card-header>
+            <mat-card-title>Répartition par département</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="department-chart">
+              <div class="department-item" *ngFor="let dept of departmentStats">
+                <div class="dept-name">{{ dept.name }}</div>
+                <div class="dept-bar">
+                  <div class="dept-fill" [style.width.%]="dept.percentage"></div>
+                </div>
+                <div class="dept-count">{{ dept.count }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <!-- Évolution des congés -->
+        <mat-card class="chart-card">
+          <mat-card-header>
+            <mat-card-title>Évolution des congés (6 derniers mois)</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="leave-chart">
+              <div class="month-bar" *ngFor="let month of leaveEvolution">
+                <div class="bar-fill" [style.height.px]="month.days * 2"></div>
+                <div class="month-label">{{ month.month }}</div>
+                <div class="leave-count">{{ month.days }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+  
+        <!-- Taux d'occupation -->
+        <mat-card class="chart-card">
+          <mat-card-header>
+            <mat-card-title>Taux d'occupation des employés</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="occupation-gauge">
+              <div class="gauge-container">
+                <svg class="gauge-svg" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#e0e0e0" stroke-width="10"/>
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#1976d2" stroke-width="10"
+                          stroke-dasharray="314" [attr.stroke-dashoffset]="314 - (occupationRate * 3.14)"
+                          transform="rotate(-90 60 60)"/>
+                </svg>
+                <div class="gauge-center">
+                  <div class="occupation-percentage">{{ occupationRate }}%</div>
+                  <div class="occupation-label">Occupé</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <!-- Métriques clés -->
+      <div class="key-metrics-section">
+        <mat-card class="metrics-card">
+          <mat-card-header>
+            <mat-card-title>Métriques clés du mois</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <div class="metric-icon productivity">
+                  <mat-icon>timeline</mat-icon>
+                </div>
+                <div class="metric-data">
+                  <div class="metric-value">{{ productivityRate }}%</div>
+                  <div class="metric-label">Productivité</div>
+                </div>
+              </div>
+  
+              <div class="metric-item">
+                <div class="metric-icon satisfaction">
+                  <mat-icon>sentiment_satisfied</mat-icon>
+                </div>
+                <div class="metric-data">
+                  <div class="metric-value">{{ satisfactionRate }}/5</div>
+                  <div class="metric-label">Satisfaction</div>
+                </div>
+              </div>
+  
+              <div class="metric-item">
+                <div class="metric-icon retention">
+                  <mat-icon>group_add</mat-icon>
+                </div>
+                <div class="metric-data">
+                  <div class="metric-value">{{ retentionRate }}%</div>
+                  <div class="metric-label">Rétention</div>
+                </div>
+              </div>
+  
+              <div class="metric-item">
+                <div class="metric-icon budget">
+                  <mat-icon>account_balance_wallet</mat-icon>
+                </div>
+                <div class="metric-data">
+                  <div class="metric-value">{{ budgetUtilization }}%</div>
+                  <div class="metric-label">Budget utilisé</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>

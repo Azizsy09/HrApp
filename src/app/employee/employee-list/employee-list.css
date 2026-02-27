@@ -1,0 +1,181 @@
+/* AMÉLIORATIONS POUR LES FILTRES */
+
+/* Style amélioré pour les champs de formulaire */
+.filter-field {
+    width: 100%;
+  }
+  
+  .filter-field mat-form-field {
+    width: 100%;
+  }
+  
+  .filter-field .mat-mdc-form-field {
+    width: 100%;
+  }
+  
+  .filter-field .mat-mdc-form-field-outline {
+    border-radius: 8px;
+  }
+  
+  .filter-field .mat-mdc-form-field-focus-overlay {
+    background-color: rgba(25, 118, 210, 0.04);
+  }
+  
+  .filter-field .mdc-notched-outline__leading,
+  .filter-field .mdc-notched-outline__notch,
+  .filter-field .mdc-notched-outline__trailing {
+    border-color: #e0e0e0;
+    border-width: 1px;
+  }
+  
+  .filter-field .mdc-notched-outline--notched .mdc-notched-outline__notch {
+    border-top: none;
+  }
+  
+  .filter-field.mat-focused .mdc-notched-outline__leading,
+  .filter-field.mat-focused .mdc-notched-outline__notch,
+  .filter-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: #1976d2;
+    border-width: 2px;
+  }
+  
+  .filter-field .mat-mdc-input-element {
+    padding: 16px 14px;
+    font-size: 14px;
+  }
+  
+  .filter-field .mat-mdc-form-field-label {
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .filter-field.mat-focused .mat-mdc-form-field-label {
+    color: #1976d2;
+  }
+  
+  .filter-field .mat-mdc-form-field-required-marker {
+    color: #f44336;
+  }
+  
+  /* Style pour les icônes dans les filtres */
+  .filter-field .mat-icon {
+    color: #666;
+  }
+  
+  .filter-field.mat-focused .mat-icon {
+    color: #1976d2;
+  }
+  
+  /* Style pour le select de date */
+  .filter-field mat-select {
+    padding: 16px 14px;
+  }
+  
+  /* Amélioration de la grille des filtres */
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+  }
+  
+  /* Style pour les boutons d'actions des filtres */
+  .filter-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  
+  .clear-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    border-color: #e0e0e0;
+  }
+  
+  .clear-button:hover {
+    background-color: #f5f5f5;
+    border-color: #1976d2;
+  }
+  
+  .results-count {
+    font-weight: 600;
+    color: #1976d2;
+    font-size: 0.9rem;
+    background: #e3f2fd;
+    padding: 6px 12px;
+    border-radius: 16px;
+  }
+  
+  /* Amélioration de la carte des filtres */
+  .filters-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+  
+  .filters-card mat-card-header {
+    background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+    color: white;
+    padding: 20px;
+  }
+  
+  .filters-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white !important;
+    font-size: 1.3rem !important;
+    font-weight: 600;
+  }
+  
+  .filters-title mat-icon {
+    font-size: 24px;
+  }
+  
+  /* Responsive amélioré pour les filtres */
+  @media (max-width: 768px) {
+    .filters-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    .filter-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    
+    .clear-button {
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+    }
+    
+    .results-count {
+      text-align: center;
+      margin-top: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .filters-card mat-card-content {
+      padding: 16px !important;
+    }
+    
+    .filters-grid {
+      gap: 16px;
+    }
+    
+    .filter-field .mat-mdc-input-element {
+      padding: 14px 12px;
+      font-size: 16px; /* Empêche zoom sur mobile */
+    }
+  }
