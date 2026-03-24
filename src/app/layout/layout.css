@@ -19,3 +19,23 @@
     font-size: 0.9rem;
     opacity: 0.9;
   }
+  
+  .toolbar-menu-button {
+    margin-right: 16px;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .toolbar-menu-button mat-icon {
+    margin-right: 8px;
+  }
+  
+  mat-sidenav {
+    width: 280px;
+  }
+  
+  @media (max-width: 600px) {
+    mat-sidenav {
+      width: 80%;
+      max-width: 300px;
+    }
+  }

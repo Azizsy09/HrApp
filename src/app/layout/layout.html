@@ -4,33 +4,44 @@
     <mat-sidenav
       #sidenav
       [mode]="isMobile ? 'over' : 'side'"
-      [opened]="isSidenavOpen"
-      (backdropClick)="isMobile && sidenav.close()"
-      (keydown.escape)="isMobile && sidenav.close()">
+      [(opened)]="isSidenavOpen"
+      (backdropClick)="isMobile && (isSidenavOpen = false)"
+      (keydown.escape)="isMobile && (isSidenavOpen = false)">
 
-      <h3 class="menu-title">RH App</h3>
+      <mat-toolbar color="primary" *ngIf="isMobile">
+        <button mat-icon-button (click)="isSidenavOpen = false">
+          <mat-icon>close</mat-icon>
+        </button>
+        <span>RH App</span>
+      </mat-toolbar>
+
+      <h3 class="menu-title" *ngIf="!isMobile">RH App</h3>
 
       <mat-nav-list>
-        <a mat-list-item routerLink="dashboard" (click)="isMobile && sidenav.close()">Dashboard</a>
-        <a mat-list-item routerLink="employees" (click)="isMobile && sidenav.close()">Liste employés</a>
-        <a mat-list-item routerLink="employees/create" (click)="isMobile && sidenav.close()">Créer employé</a>
-        <a mat-list-item routerLink="leaves" (click)="isMobile && sidenav.close()">Demandes congés</a>
-        <a mat-list-item routerLink="attendance" (click)="isMobile && sidenav.close()">Pointage</a>
-        <a mat-list-item routerLink="attendance/list" (click)="isMobile && sidenav.close()">Historique pointages</a>
-        <a mat-list-item routerLink="projects" (click)="isMobile && sidenav.close()">Projets</a>
-        <a mat-list-item routerLink="calendar" (click)="isMobile && sidenav.close()">Planning</a>
+        <a mat-list-item routerLink="dashboard" (click)="isMobile && (isSidenavOpen = false)">Dashboard</a>
+        <a mat-list-item routerLink="employees" (click)="isMobile && (isSidenavOpen = false)">Liste employés</a>
+        <a mat-list-item routerLink="employees/create" (click)="isMobile && (isSidenavOpen = false)">Créer employé</a>
+        <a mat-list-item routerLink="leaves" (click)="isMobile && (isSidenavOpen = false)">Demandes congés</a>
+        <a mat-list-item routerLink="attendance" (click)="isMobile && (isSidenavOpen = false)">Pointage</a>
+        <a mat-list-item routerLink="attendance/list" (click)="isMobile && (isSidenavOpen = false)">Historique pointages</a>
+        <a mat-list-item routerLink="projects" (click)="isMobile && (isSidenavOpen = false)">Projets</a>
+        <a mat-list-item routerLink="calendar" (click)="isMobile && (isSidenavOpen = false)">Planning</a>
       </mat-nav-list>
 
     </mat-sidenav>
+    
 
     <!-- Contenu -->
     <mat-sidenav-content>
 
       <mat-toolbar color="primary">
         <button
-          mat-icon-button
-          (click)="toggleSidenav()">
+          mat-flat-button
+          color="primary"
+          (click)="toggleSidenav()"
+          class="toolbar-menu-button">
           <mat-icon>menu</mat-icon>
+          <span>MENU</span>
         </button>
 
         <span>Dashboard RH</span>

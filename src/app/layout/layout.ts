@@ -39,37 +39,26 @@ export class Layout implements AfterViewInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthService  // <-- AJOUTEZ CETTE LIGNE
+    private authService: AuthService
   ) {
     this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
       this.isMobile = result.matches;
-      // If sidenav is available (after view init) open/close via API,
-      // otherwise keep the boolean for initial state.
-      if (this.sidenav) {
-        if (this.isMobile) {
-          this.sidenav.close();
-        } else {
-          this.sidenav.open();
-        }
+      // In mobile mode, sidenav should be closed by default
+      if (this.isMobile) {
+        this.isSidenavOpen = false;
       } else {
-        this.isSidenavOpen = !this.isMobile;
+        this.isSidenavOpen = true;
       }
     });
 
-    // Écouter les changements d'utilisateur
+    // Listen for user changes
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
   }
 
   toggleSidenav() {
-    if (this.sidenav) {
-      this.sidenav.toggle().then(() => {
-        this.isSidenavOpen = this.sidenav.opened;
-      });
-    } else {
-      this.isSidenavOpen = !this.isSidenavOpen;
-    }
+    this.isSidenavOpen = !this.isSidenavOpen;
   }
 
   logout() {  // <-- AJOUTEZ CETTE MÉTHODE
@@ -77,15 +66,6 @@ export class Layout implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Ensure initial sidenav state after view is ready
-    if (this.sidenav) {
-      if (this.isMobile) {
-        this.sidenav.close();
-      } else {
-        this.sidenav.open();
-      }
-      // sync boolean state with actual sidenav
-      this.isSidenavOpen = this.sidenav.opened;
-    }
+    // Initial state is managed by the breakpoint observer and the [(opened)] binding
   }
 }
